@@ -85,7 +85,8 @@ for i in range(len(coordinates)-1):
     m.addConstr(z[i+1] >= (et[i+1]-9)*60)   ## service starts at 9:00 AM, 9 == 0 mins, each hour after 9 is 60 mins plus previous hours
     m.addConstr(z[i+1] <= (lt[i+1]-9)*60)
     for j in range(len(coordinates)-1):
-        m.addConstr(z[i+1] >= (z[j+1] + st[j+1] + dist_matrix[j+1, i+1])*(x[j+1,i+1]))  ## taking distance from one node to other as travelling time in minutes between those nodes
+        if i != j:
+            m.addConstr(z[i+1] >= (z[j+1] + st[j+1] + dist_matrix[j+1, i+1])*(x[j+1,i+1]))  ## taking distance from one node to other as travelling time in minutes between those nodes
 m.update()
 
 dist_matrix_clear = np.empty([n , n ])
