@@ -88,8 +88,16 @@ for i in range(len(coordinates)-1):
         m.addConstr(z[i+1] >= (z[j+1] + st[j+1] + dist_matrix[j+1, i+1])*(x[j+1,i+1]))  ## taking distance from one node to other as travelling time in minutes between those nodes
 m.update()
 
+dist_matrix_clear = np.empty([n , n ])
+for i in range(len(coordinates)):
+    for j in range(len(coordinates)):
+        if i == j:
+            dist_matrix_clear[i, j] = 0
+        else:
+            dist_matrix_clear[i, j] = dist_matrix[i, j]
+
 #objective function
-m.setObjective(quicksum(quicksum(x[(i,j)]*dist_matrix[(i,j)] for j in range (len(coordinates))) for i in range (len(coordinates))), GRB.MINIMIZE)
+m.setObjective(quicksum(quicksum(x[(i,j)]*dist_matrix_clear[(i,j)] for j in range (len(coordinates))) for i in range (len(coordinates))), GRB.MINIMIZE)
 m.update()
 
 m.optimize()
@@ -129,7 +137,7 @@ for i in range(n):
     for j in range (n):
         to_node[i,j] = from_node[n*i+j]
 
-print('\nDistance Matrix (dij):\n',pd.DataFrame(dist_matrix).astype('int64'))
+print('\nDistance Matrix (dij):\n',pd.DataFrame(dist_matrix_clear).astype('int64'))
 print('\nDecision (Xij):\n',pd.DataFrame(to_node).astype('int64'))
 #print('yj\n', pd.DataFrame(collection))
 
