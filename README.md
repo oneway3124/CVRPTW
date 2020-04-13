@@ -12,3 +12,6 @@ Either of those constraints are capable of eliminating subtours.
 The CSV file with 400 nodes has (x,y) coordinates of depot and customer nodes, demand at customer node and profit.
 
 The CSV file with only 10 nodes is to test time windows. It has earliet start time, latest start time and service duration. Travelling time from one node to other is to determined from distance from one node to other.
+
+# 参考这位同学的代码
+对比gurobi实现MTSP问题，以及约束问题，实际能很好地运行起来。
